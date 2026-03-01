@@ -1,10 +1,32 @@
 mod six_sigma;
-mod engine; // Declare the new engine module
+mod engine; 
 
 use clap::{Parser, Subcommand};
-use std::fs; // Used to read the file
+use std::fs; 
 
-// ... (Keep your existing Cli and Commands structs the same) ...
+#[derive(Parser)]
+#[command(name = "A.L.I.S.")]
+#[command(author = "John Mapatac")]
+#[command(version = "0.1.0")]
+#[command(about = "Optimizes engineering routes using Six Sigma metrics", long_about = None)]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    Evaluate {
+        #[arg(short, long)]
+        data: String,
+    },
+    Analyze {
+        #[arg(short, long)]
+        defects: f64,
+        #[arg(short, long)]
+        opportunities: f64,
+    }
+}
 
 fn main() {
     let cli = Cli::parse();
@@ -36,8 +58,8 @@ fn main() {
             engine::evaluate_routes(&routes);
         }
         Commands::Analyze { defects, opportunities } => {
-            // ... (Keep your existing Analyze logic the same) ...
             println!("📊 Running Lean Six Sigma analysis...\n");
+            
             let dpmo = six_sigma::calculate_dpmo(*defects, *opportunities);
             let process_yield = six_sigma::calculate_yield(*defects, *opportunities);
 
