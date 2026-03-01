@@ -38,14 +38,12 @@ fn main() {
         Commands::Evaluate { data } => {
             println!("⚙️  A.L.I.S. Engine Initializing...");
             println!("📂 Loading dataset from: {}", data);
-            // TODO: Pass this file path to src::engine::load_data()
             println!("✅ Evaluation complete. (Logic pending in engine.rs)");
         }
         Commands::Analyze { defects, opportunities } => {
             println!("📊 Running manual Lean Six Sigma analysis...");
             println!("Defects: {}", defects);
             println!("Opportunities: {}", opportunities);
-            // TODO: Pass these to src::six_sigma::calculate()
         }
     }
 }
