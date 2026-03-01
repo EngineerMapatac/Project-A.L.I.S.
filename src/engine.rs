@@ -1,43 +1,47 @@
 // src/engine.rs
+use serde::Deserialize;
+use crate::six_sigma; // Pull in our math module
 
-#[derive(Debug)]
+// The Deserialize trait allows serde to automatically parse JSON into this struct
+#[derive(Debug, Deserialize)]
 pub struct RouteOption {
     pub route_name: String,
     pub estimated_time_hours: f64,
     pub component_cost: f64,
-    pub total_opportunities: f64, // Potential points of failure (e.g., API calls, manual inputs)
-    pub estimated_defects: f64,   // Expected bugs or bottlenecks based on historical data
+    pub total_opportunities: f64,
+    pub estimated_defects: f64,
 }
 
 impl RouteOption {
-    /// Calculates the DPMO for this specific technical route.
-    pub fn calculate_dpmo(&self) -> f64 {
-        if self.total_opportunities == 0.0 {
-            return 0.0; // Prevent division by zero
-        }
-        (self.estimated_defects / self.total_opportunities) * 1_000_000.0
-    }
-
-    /// Calculates the estimated process yield percentage.
-    pub fn calculate_process_yield(&self) -> f64 {
-        if self.total_opportunities == 0.0 {
-            return 100.0;
-        }
-        (1.0 - (self.estimated_defects / self.total_opportunities)) * 100.0
-    }
-
     /// Generates a final 'Lean Score' (Lower is better).
-    /// Applies weights to time, cost, and projected defects.
     pub fn calculate_lean_score(&self) -> f64 {
+        let dpmo = six_sigma::calculate_dpmo(self.estimated_defects, self.total_opportunities);
+        
+        // Strategic weights: Time (40%), Cost (30%), Quality/Defects (30%)
         let weight_time = 0.4;
         let weight_cost = 0.3;
         let weight_quality = 0.3;
         
-        // Normalize DPMO slightly so it doesn't completely overpower time and cost in the algorithm
-        let quality_penalty = self.calculate_dpmo() / 1000.0; 
+        let quality_penalty = dpmo / 1000.0; 
         
         (self.estimated_time_hours * weight_time) + 
         (self.component_cost * weight_cost) + 
         (quality_penalty * weight_quality)
+    }
+}
+
+/// Evaluates and prints the metrics for a list of routes
+pub fn evaluate_routes(routes: &[RouteOption]) {
+    println!("Evaluating {} potential engineering routes...\n", routes.len());
+    
+    for route in routes {
+        let dpmo = six_sigma::calculate_dpmo(route.estimated_defects, route.total_opportunities);
+        let yield_pct = six_sigma::calculate_yield(route.estimated_defects, route.total_opportunities);
+        let score = route.calculate_lean_score();
+
+        println!("🛠️ Route: {}", route.route_name);
+        println!("  ├─ DPMO: {:.2}", dpmo);
+        println!("  ├─ Process Yield: {:.2}%", yield_pct);
+        println!("  └─ Lean Score: {:.2} (Lower is better)\n", score);
     }
 }
