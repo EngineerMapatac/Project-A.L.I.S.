@@ -84,7 +84,9 @@ Run A.L.I.S. from your terminal to evaluate a specific dataset of technical rout
 cargo run -- evaluate --data data/lab_results.json
 ```
 
-###🤝 Contributing
+---
+
+### 🤝 Contributing
 Contributions are highly encouraged! Whether it is adding new Lean metrics, optimizing the Rust concurrency models, or improving the documentation, your pull requests are welcome.
 
 ---
