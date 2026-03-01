@@ -1,0 +1,18 @@
+[package]
+name = "project_alis"
+version = "0.1.0"
+edition = "2021"
+authors = ["John Mapatac"]
+description = "A Six Sigma-driven Technical Route Optimizer"
+license = "Apache-2.0"
+
+[dependencies]
+# CLI framework
+clap = { version = "4.4", features = ["derive"] }
+
+# Serialization/Deserialization for reading dataset files
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Parallel processing for heavy matrix calculations
+rayon = "1.8"
