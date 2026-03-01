@@ -29,6 +29,8 @@ A.L.I.S. treats lines of code, API calls, and memory usage as points of potentia
 * **Concurrent Processing:** Powered by `rayon` to instantly crunch large datasets and simulate hundreds of project paths across multiple CPU cores.
 * **Data Driven:** Uses `serde` to ingest historical project metrics via CSV or JSON.
 
+---
+
 ## 🗂️ Project Structure
 
 ```
