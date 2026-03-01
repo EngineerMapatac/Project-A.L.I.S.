@@ -1,7 +1,6 @@
+mod six_sigma; // Declares the new module
 use clap::{Parser, Subcommand};
 
-/// A.L.I.S. - Artificial Linguistic Intelligence System
-/// Technical Route Optimizer based on Lean Six Sigma
 #[derive(Parser)]
 #[command(name = "A.L.I.S.")]
 #[command(author = "John Mapatac")]
@@ -14,18 +13,13 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Evaluates technical routes from a provided dataset
     Evaluate {
-        /// Path to the JSON or CSV file containing route data
         #[arg(short, long)]
         data: String,
     },
-    /// Runs a quick DPMO and Yield calculation manually
     Analyze {
-        /// Number of estimated defects
         #[arg(short, long)]
         defects: f64,
-        /// Total number of opportunities (e.g., lines of code, API calls)
         #[arg(short, long)]
         opportunities: f64,
     }
@@ -41,9 +35,17 @@ fn main() {
             println!("✅ Evaluation complete. (Logic pending in engine.rs)");
         }
         Commands::Analyze { defects, opportunities } => {
-            println!("📊 Running manual Lean Six Sigma analysis...");
-            println!("Defects: {}", defects);
-            println!("Opportunities: {}", opportunities);
+            println!("📊 Running Lean Six Sigma analysis...\n");
+            
+            // Call the functions from our new module
+            let dpmo = six_sigma::calculate_dpmo(*defects, *opportunities);
+            let process_yield = six_sigma::calculate_yield(*defects, *opportunities);
+
+            println!("Defects Logged: {}", defects);
+            println!("Total Opportunities: {}", opportunities);
+            println!("-----------------------------------");
+            println!("DPMO: {:.2}", dpmo);
+            println!("Process Yield: {:.2}%", process_yield);
         }
     }
 }
