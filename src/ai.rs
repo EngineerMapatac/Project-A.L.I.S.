@@ -1,25 +1,21 @@
 // src/ai.rs
-use serde::Serialize;
 use crate::engine::RouteOption;
 
-#[derive(Serialize)]
-struct AiRequest {
-    prompt: String,
-    model: String,
-}
-
-pub async fn suggest_routes(problem_description: &str) -> Vec<RouteOption> {
-    println!("🤖 A.L.I.S. is thinking about: {}...", problem_description);
+/// This function simulates an AI evaluating a problem description
+/// and returning a Lean-optimized route suggestion.
+pub async fn suggest_routes(prompt: &str) -> Vec<RouteOption> {
+    println!("🤖 A.L.I.S. Analyzing Problem: \"{}\"", prompt);
     
-    // Placeholder: In a real implementation, you would use reqwest to call 
-    // an API like OpenAI or a local Llama instance.
+    // In a future update, we will replace this with a real API call 
+    // to an LLM using the 'reqwest' crate.
+    
     vec![
         RouteOption {
-            route_name: "AI Suggested: Serverless Edge".to_string(),
-            estimated_time_hours: 5.0,
-            component_cost: 2.0,
+            route_name: format!("AI Recommendation: Optimized {}", prompt),
+            estimated_time_hours: 4.5,
+            component_cost: 0.0,
             total_opportunities: 100.0,
-            estimated_defects: 1.0,
+            estimated_defects: 0.5,
         }
     ]
 }
