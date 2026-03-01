@@ -1,0 +1,23 @@
+[
+  {
+    "route_name": "Synchronous API Calls",
+    "estimated_time_hours": 12.5000,
+    "component_cost": 0.0000,
+    "total_opportunities": 500.0000,
+    "estimated_defects": 45.0000
+  },
+  {
+    "route_name": "Asynchronous Batch Processing",
+    "estimated_time_hours": 18.2500,
+    "component_cost": 15.0000,
+    "total_opportunities": 850.0000,
+    "estimated_defects": 12.0000
+  },
+  {
+    "route_name": "Local Cache Strategy",
+    "estimated_time_hours": 8.0000,
+    "component_cost": 5.5000,
+    "total_opportunities": 300.0000,
+    "estimated_defects": 2.0000
+  }
+]
