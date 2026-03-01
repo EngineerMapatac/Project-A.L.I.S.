@@ -1,0 +1,27 @@
+name: Build and Release A.L.I.S.
+
+on:
+  push:
+    tags:
+      - "v*" # Triggers the action when you push a version tag
+
+jobs:
+  build-and-release:
+    name: Compile and Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grants permission to attach files to the Release page
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Release Binary
+        run: cargo build --release
+
+      - name: Upload Binary to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: target/release/project_alis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
