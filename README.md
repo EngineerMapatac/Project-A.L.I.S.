@@ -35,13 +35,13 @@ A.L.I.S. treats lines of code, API calls, and memory usage as points of potentia
 
 ```
 project_alis/
-├── Cargo.toml             # Dependencies (clap, serde, rayon)
+├── .github/workflows/     # CI/CD Automation scripts
 ├── src/
-│   ├── main.rs            # CLI entry point
-│   ├── engine.rs          # Core decision-matrix and weighting logic
-│   └── six_sigma.rs       # Mathematical modules (DPMO, Yield)
-└── data/                  # Sample JSON/CSV lab metrics
-
+│   ├── main.rs            # Async CLI entry point
+│   ├── engine.rs          # Decision-matrix and CSV export logic
+│   ├── six_sigma.rs       # Mathematical modules (DPMO, Yield)
+│   └── ai.rs              # AI-powered route generation
+└── data/                  # Sample JSON lab metrics
 ```
 
 ---
@@ -59,7 +59,7 @@ Clone the repository:
 
 ```
 git clone [https://github.com/EngineerMapatac/Project-ALIS.git](https://github.com/EngineerMapatac/Project-ALIS.git)
-```
+
 
 ---
 
@@ -80,11 +80,22 @@ cargo build --release
 
 ### Basic Usage
 
-Run A.L.I.S. from your terminal to evaluate a specific dataset of technical routes:
+---
+
+## Usage
+
+1. Evaluate a dataset and export to CSV:
 
 ```
-cargo run -- evaluate --data data/lab_results.json
+cargo run -- evaluate --data data/lab_results.json --csv report.csv
 ```
+
+
+2. Ask A.L.I.S. for an AI-suggested route:
+
+```
+cargo run -- suggest --prompt "implementing a real-time notification system"
+``` 
 
 ---
 
