@@ -54,8 +54,9 @@ async fn main() {
             }
 
             if *save {
-                println!("☁️ Connecting to Render Database...");
-                // The sqlx logic will go here next!
+                println!("☁️ Initiating cloud sync...");
+                // This is the line that was missing! It passes your data to the database module.
+                database::save_routes(&routes).await;
             }
         }
         Commands::Suggest { prompt } => {
