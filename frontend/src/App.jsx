@@ -2,23 +2,19 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  // 1. Form State Variables
   const [routeName, setRouteName] = useState('')
   const [time, setTime] = useState('')
   const [cost, setCost] = useState('')
   const [opportunities, setOpportunities] = useState('')
   const [defects, setDefects] = useState('')
 
-  // 2. Results State
   const [results, setResults] = useState([])
   const [isEvaluating, setIsEvaluating] = useState(false)
 
-  // 3. The Submit Function
   const handleEvaluate = async (e) => {
     e.preventDefault() 
     setIsEvaluating(true)
 
-    // Package the input exactly how your Rust engine expects it
     const payload = [{
       route_name: routeName,
       estimated_time_hours: parseFloat(time),
@@ -28,7 +24,6 @@ function App() {
     }]
 
     try {
-      // ⚠️ UPDATE THIS LINE to use your live Render URL
       const response = await fetch('https://project-a-l-i-s.onrender.com/api/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -39,10 +34,30 @@ function App() {
       setResults(data)
     } catch (error) {
       console.error("Engine connection failed:", error)
-      alert("Failed to connect to the A.L.I.S. backend. Make sure the Rust server is running on port 3000!")
+      alert("Failed to connect to the A.L.I.S. backend.")
     }
     
     setIsEvaluating(false)
+  }
+
+  // 🧠 NEW: Dynamic Text Explanation
+  const getExplanation = (processYield) => {
+    if (processYield >= 99.0) {
+      return "Excellent architecture. This route operates with minimal waste and high efficiency. It is highly optimized and ready for production scaling."
+    } else if (processYield >= 90.0) {
+      return "Solid approach, but carries some technical debt. The defect rate is manageable, but keep an eye on potential failure points and rework during heavy loads."
+    } else if (processYield >= 80.0) {
+      return "Warning: High defect potential. This route will likely require frequent bug fixes. Consider refactoring to eliminate process waste before deployment."
+    } else {
+      return "Critical risk. The expected failures make this route unviable. A complete architectural redesign is strongly advised before moving forward."
+    }
+  }
+
+  // 🎨 NEW: Dynamic Color Coding
+  const getTheme = (processYield) => {
+    if (processYield >= 99.0) return { border: '#28a745', bg: '#e9f7ef', text: '#155724' } // Green (Optimal)
+    if (processYield >= 90.0) return { border: '#ffc107', bg: '#fff3cd', text: '#856404' } // Yellow (Acceptable)
+    return { border: '#dc3545', bg: '#f8d7da', text: '#721c24' } // Red (Critical)
   }
 
   return (
@@ -89,14 +104,22 @@ function App() {
           {results.length === 0 ? (
             <p style={{ color: '#666' }}>Awaiting data input...</p>
           ) : (
-            results.map((route, index) => (
-              <div key={index} style={{ border: '2px solid #28a745', padding: '20px', borderRadius: '8px', background: '#e9f7ef', color: '#155724' }}>
-                <h2 style={{ margin: '0 0 10px 0' }}>🛠️ {route.route_name}</h2>
-                <h1 style={{ margin: '0 0 10px 0', fontSize: '2.5rem' }}>{route.process_yield.toFixed(2)}% Yield</h1>
-                <p><strong>Lean Score:</strong> {route.lean_score.toFixed(2)}</p>
-                <p><strong>DPMO:</strong> {route.dpmo.toFixed(2)}</p>
-              </div>
-            ))
+            results.map((route, index) => {
+              const theme = getTheme(route.process_yield);
+              return (
+                <div key={index} style={{ border: `2px solid ${theme.border}`, padding: '20px', borderRadius: '8px', background: theme.bg, color: theme.text, marginBottom: '20px' }}>
+                  <h2 style={{ margin: '0 0 10px 0' }}>🛠️ {route.route_name}</h2>
+                  <h1 style={{ margin: '0 0 10px 0', fontSize: '2.5rem' }}>{route.process_yield.toFixed(2)}% Yield</h1>
+                  <p style={{ margin: '5px 0' }}><strong>Lean Score:</strong> {route.lean_score.toFixed(2)}</p>
+                  <p style={{ margin: '5px 0' }}><strong>DPMO:</strong> {route.dpmo.toFixed(2)}</p>
+                  
+                  {/* The new explanation box */}
+                  <div style={{ marginTop: '15px', padding: '15px', background: 'rgba(255, 255, 255, 0.6)', borderRadius: '6px', borderLeft: `4px solid ${theme.border}` }}>
+                    <strong>Analysis:</strong> {getExplanation(route.process_yield)}
+                  </div>
+                </div>
+              )
+            })
           )}
         </div>
 
