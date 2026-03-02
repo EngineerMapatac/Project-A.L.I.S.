@@ -55,11 +55,12 @@ Rust and Cargo installed on your system.
 ---
 
 1. Installation
+   
 Clone the repository:
 
 ```
 git clone [https://github.com/EngineerMapatac/Project-ALIS.git](https://github.com/EngineerMapatac/Project-ALIS.git)
-
+```
 
 ---
 
