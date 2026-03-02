@@ -28,7 +28,8 @@ function App() {
     }]
 
     try {
-      const response = await fetch('http://localhost:3000/api/evaluate', {
+      // ⚠️ UPDATE THIS LINE to use your live Render URL
+      const response = await fetch('https://project-a-l-i-s.onrender.com/api/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
