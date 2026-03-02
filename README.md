@@ -7,6 +7,11 @@
 
 ---
 
+## 🌐 Live Dashboard
+**Access the live production application here:** [https://alis-dashboard.onrender.com](https://alis-dashboard.onrender.com)
+
+---
+
 ## 📖 Overview
 
 Project A.L.I.S. is a high-performance, open-source command-line engine built in Rust. It serves as an automated Technical Lead, guiding engineers toward the most efficient, scalable, and lean development routes. 
@@ -24,10 +29,10 @@ A.L.I.S. treats lines of code, API calls, and memory usage as points of potentia
 ---
 
 ## ✨ Features
-* **Blazing Fast CLI:** Built with `clap` for instant terminal responses.
-* **Mathematical Decision Matrix:** Evaluates routes based on execution time, component cost, and projected defect rates.
-* **Concurrent Processing:** Powered by `rayon` to instantly crunch large datasets and simulate hundreds of project paths across multiple CPU cores.
-* **Data Driven:** Uses `serde` to ingest historical project metrics via CSV or JSON.
+* **Full-Stack Architecture:** Lightning-fast Rust (`axum`) REST API backend paired with a dynamic React (`vite`) frontend.
+* **Actionable Intelligence:** Provides real-time, human-readable analysis of technical debt and risk levels based on Process Yield.
+* **Cloud Integration:** Automatically syncs evaluation metrics to a centralized Render PostgreSQL database.
+* **Versatile CLI:** Can be run locally as a terminal tool for file parsing or spawned as a local web server.
 
 ---
 
@@ -36,8 +41,11 @@ A.L.I.S. treats lines of code, API calls, and memory usage as points of potentia
 ```
 project_alis/
 ├── .github/workflows/     # CI/CD Automation scripts
+├── frontend/              # React (Vite) Web Dashboard
 ├── src/
-│   ├── main.rs            # Async CLI entry point
+│   ├── main.rs            # Async CLI & Server entry point
+│   ├── api.rs             # Axum REST API routes
+│   ├── database.rs        # PostgreSQL Render integration
 │   ├── engine.rs          # Decision-matrix and CSV export logic
 │   ├── six_sigma.rs       # Mathematical modules (DPMO, Yield)
 │   └── ai.rs              # AI-powered route generation
