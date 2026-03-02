@@ -1,4 +1,5 @@
 mod ai;
+mod database;
 mod engine;
 mod report;
 mod six_sigma;
