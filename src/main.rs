@@ -47,3 +47,19 @@ async fn main() {
         }
     }
 }
+
+// Inside main.rs match arm
+Commands::Evaluate { data, csv, pdf } => {
+    let raw_json = fs::read_to_string(data).expect("Unable to read file");
+    let routes: Vec<engine::RouteOption> = serde_json::from_str(&raw_json).expect("JSON error");
+    
+    engine::evaluate_routes(&routes);
+
+    if let Some(path) = csv {
+        engine::export_to_csv(&routes, path).expect("CSV export failed");
+    }
+    
+    if let Some(path) = pdf {
+        report::generate_pdf_report(&routes, path); // Now it's linked!
+    }
+}
