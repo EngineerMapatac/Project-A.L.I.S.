@@ -58,7 +58,8 @@ project_alis/
 
 ### Prerequisites
 
-Rust and Cargo installed on your system.
+* Rust and Cargo installed on your system.
+* Node.js and npm installed (for the frontend dashboard).
 
 ---
 
@@ -72,39 +73,40 @@ git clone [https://github.com/EngineerMapatac/Project-ALIS.git](https://github.c
 
 ---
 
-2. Navigate into the directory:
+2. Local Web Dashboard (Full-Stack)
+
+To run the visual dashboard locally, you will need two terminals.
+
+Terminal 1 (Start the Rust Backend):
 
 ```
-cd Project-ALIS
+cargo run -- serve
 ```
 
+Terminal 2 (Start the React Frontend):
+
+```
+cd frontend
+npm install
+npm run dev
+```
 ---
 
-3. Build the release version:
+3. CLI Usage
+
+If you prefer to use A.L.I.S. purely as a command-line tool:
+
+Evaluate a dataset, export to CSV, and save to the cloud database:
 
 ```
-cargo build --release
-```
----
-
-### Basic Usage
-
----
-
-## Usage
-
-1. Evaluate a dataset and export to CSV:
-
-```
-cargo run -- evaluate --data data/lab_results.json --csv report.csv
+cargo run -- evaluate --data data/lab_results.json --csv report.csv --save
 ```
 
-
-2. Ask A.L.I.S. for an AI-suggested route:
+Ask A.L.I.S. for an AI-suggested route:
 
 ```
 cargo run -- suggest --prompt "implementing a real-time notification system"
-``` 
+```
 
 ---
 
