@@ -1,9 +1,10 @@
 // src/engine.rs
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use crate::six_sigma; // Pull in our math module
 
+
 // The Deserialize trait allows serde to automatically parse JSON into this struct
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct RouteOption {
     pub route_name: String,
     pub estimated_time_hours: f64,

@@ -1,4 +1,5 @@
 mod ai;
+mod api;
 mod database;
 mod engine;
 mod report;
@@ -23,21 +24,21 @@ enum Commands {
         csv: Option<String>,
         #[arg(long)]
         pdf: Option<String>,
-        // The new flag for saving to the Render PostgreSQL database
         #[arg(long)]
-        save: bool, 
+        save: bool,
     },
     Suggest {
         #[arg(short, long)]
         prompt: String,
     },
+    /// Starts the A.L.I.S. REST API Web Server
+    Serve,
 }
 
 #[tokio::main]
 async fn main() {
     let cli = Cli::parse();
 
-    // This is the line that was missing!
     match &cli.command {
         Commands::Evaluate { data, csv, pdf, save } => {
             let raw_json = fs::read_to_string(data).expect("Unable to read file");
@@ -55,13 +56,15 @@ async fn main() {
 
             if *save {
                 println!("☁️ Initiating cloud sync...");
-                // This is the line that was missing! It passes your data to the database module.
                 database::save_routes(&routes).await;
             }
         }
         Commands::Suggest { prompt } => {
             let suggestions = ai::suggest_routes(prompt).await;
             engine::evaluate_routes(&suggestions);
+        }
+        Commands::Serve => {
+            api::start_server().await;
         }
     }
 }
